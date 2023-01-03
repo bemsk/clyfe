@@ -1,5 +1,10 @@
 package life
 
+import (
+	"fmt"
+	"strings"
+)
+
 type Position interface {
 	Lat() int
 	Lon() int
@@ -21,7 +26,17 @@ type Life struct {
 func New() *Life {
 	p := []*Cell{}
 
-	return  &Life{ p }
+	return  &Life{ population: p }
+}
+
+func (l *Life) String() string {
+	s := []string{}
+
+	for _, p := range l.population {
+		s = append(s, fmt.Sprintf("%v", p))
+	}
+	
+	return strings.Join(s, "\t")
 }
 
 func (l *Life) Tick() {
@@ -48,10 +63,11 @@ func (l *Life) Add(ps ...Position) {
 
 		for _, existingCell := range l.population {
 			if existingCell.IsAdjecent(p.Lat(), p.Lon()) {
+				existingCell.neighborCount += 1
 				neighborCount += 1
 			}
 		}
-	
+
 		c := &Cell{ p, neighborCount }
 		
 		l.population = append(l.population, c)

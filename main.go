@@ -1,9 +1,17 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/bemsk/clyfe/cartesian"
 	"github.com/bemsk/clyfe/life"
 )
+
+func display(s fmt.Stringer) {
+	fmt.Printf("population:\n")
+	fmt.Printf("%v", s)
+	fmt.Printf("\n")
+}
 
 func main() {
 	coordinates := [][]int{
@@ -12,7 +20,7 @@ func main() {
 		{0, 1 },
 	}
 
-	points := []*cartesian.Point{}
+	points := []life.Position{}
 
 	for _, c := range coordinates {
 		p := cartesian.NewPoint(c[0], c[1])
@@ -20,10 +28,10 @@ func main() {
 	}
 
 	clyfe := life.New()
-
-	// passing []*cartesian.Point apparently doesn't work
-	// see https://www.timr.co/go-interfaces-the-tricky-parts/
 	clyfe.Add(points...)
 
-	clyfe.Tick()
+	for i := 0; i < 10; i ++ {
+		clyfe.Tick()
+		display(clyfe)
+	}
 }

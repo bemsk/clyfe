@@ -3,6 +3,8 @@ package cartesian
 import (
 	"math"
 	"strconv"
+
+	"github.com/bemsk/clyfe/life"
 )
 
 type Point struct {
@@ -10,7 +12,7 @@ type Point struct {
 	Y int
 }
 
-func NewPoint(x int, y int) *Point {
+func NewPoint(x int, y int) life.Position {
 	return &Point{ x, y }
 }
 
@@ -29,8 +31,8 @@ func (p *Point) IsAdjecent(x int, y int) bool {
 	return distX < 2 && distY < 2
 }
 
-func (p *Point) Vicinals() []*Point {
-	v := []*Point{}
+func (p *Point) Vicinals() []life.Position {
+	v := []life.Position{}
 
 	directions := [8][2]int{
 		{0, 1}, 	// N
